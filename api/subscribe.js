@@ -11,7 +11,7 @@ export default async function handler(req, res) {
   }
 
   const KIT_API_KEY = process.env.KIT_API_KEY;
-  const KIT_FORM_ID = "2721d9624f";
+  const KIT_FORM_ID = "9362994";
 
   if (!KIT_API_KEY) {
     console.error("KIT_API_KEY not set");
