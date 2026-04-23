@@ -40,13 +40,8 @@ export default function LeadMagnetSection() {
 
       if (response.ok && data.success) {
         setStatus("success");
-        // Trigger PDF download
-        const link = document.createElement("a");
-        link.href = "/debt-free-starter-kit.pdf";
-        link.download = "Debt-Free-Starter-Kit.pdf";
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+        // PDF is delivered by Kit's incentive email after email confirmation
+        // No auto-download here — subscriber must confirm their email first
       } else {
         console.error("Subscribe error:", data);
         setStatus("error");
@@ -186,14 +181,13 @@ export default function LeadMagnetSection() {
                     className="text-[#F8F4EE] font-bold text-xl mb-2"
                     style={{ fontFamily: "'Playfair Display', serif" }}
                   >
-                    You're in!
+                    Check your inbox!
                   </h3>
                   <p
                     className="text-[#F8F4EE]/70 text-sm leading-relaxed"
                     style={{ fontFamily: "'DM Sans', sans-serif" }}
                   >
-                    Your Debt-Free Starter Kit is downloading now. Check your inbox for a confirmation email from{" "}
-                    <span className="text-[#C8922A]">hello@makerealprogressapp.com</span>.
+                    We sent a confirmation email to <span className="text-[#C8922A]">{email}</span>. Click the link inside to confirm and receive your free Debt-Free Starter Kit.
                   </p>
                 </div>
               ) : (
