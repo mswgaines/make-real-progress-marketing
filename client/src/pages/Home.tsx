@@ -609,8 +609,8 @@ export default function Home() {
                   <div className="relative z-10 p-10 flex flex-col justify-end h-full" style={{ minHeight: "420px" }}>
                     <div className="bg-[#F8F4EE]/10 backdrop-blur-sm border border-[#F8F4EE]/20 rounded-2xl p-6">
                       <div className="flex items-center gap-3 mb-4">
-                        <div className="w-10 h-10 rounded-full bg-[#C8922A] flex items-center justify-center">
-                          <Smartphone size={18} className="text-[#F8F4EE]" />
+                        <div className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center">
+                          <img src="/app-icon.png" alt="Make Real Progress App" className="w-10 h-10 object-cover" />
                         </div>
                         <div>
                           <div
@@ -669,7 +669,7 @@ export default function Home() {
                   src={AUTHOR_FRAME}
                   alt="Wanda Gaines — Author of Make Real Progress"
                   className="w-72 h-72 rounded-full object-cover object-center mx-auto"
-                  style={{ objectPosition: "center 15%", boxShadow: "0 20px 60px rgba(44,74,46,0.2)", background: "#F0E8DC" }}
+                  style={{ objectPosition: "center 15%", boxShadow: "0 20px 60px rgba(44,74,46,0.2)", background: "#C0B8B6" }}
                   />
                   <div
                     className="absolute -bottom-4 -right-4 bg-[#C8922A] text-[#F8F4EE] rounded-full px-4 py-2 text-xs font-semibold"
@@ -828,6 +828,11 @@ export default function Home() {
       </section>
 
       {/* ================================================================
+          IS THIS BOOK RIGHT FOR ME? QUIZ
+          ================================================================ */}
+      <BookQuiz />
+
+      {/* ================================================================
           FAQ SECTION
           ================================================================ */}
       <section id="faq" className="py-24 bg-[#F8F4EE]">
@@ -861,11 +866,6 @@ export default function Home() {
           </RevealSection>
         </div>
       </section>
-
-      {/* ================================================================
-          IS THIS BOOK RIGHT FOR ME? QUIZ
-          ================================================================ */}
-      <BookQuiz />
 
       {/* ================================================================
           FINAL CTA BAND
