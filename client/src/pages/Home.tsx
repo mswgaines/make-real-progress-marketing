@@ -485,7 +485,7 @@ export default function Home() {
                     title: "Make Real Progress",
                     desc: "Follow the plan, track your milestones, and watch your debt shrink. Celebrate every win — because every win matters on this journey.",
                     cta: "Start Today",
-                    href: "https://app.makerealprogressapp.com/register",
+                    href: "https://app.makerealprogressapp.com/signup",
                   },
                 ].map((item) => (
                   <div key={item.step} className="reveal flex flex-col items-center text-center">
@@ -580,7 +580,7 @@ export default function Home() {
 
                 <div className="flex flex-col sm:flex-row gap-3 reveal">
                   <a
-                    href="https://app.makerealprogressapp.com/register"
+                    href="https://app.makerealprogressapp.com/signup"
                     className="btn-forest-solid"
                   >
                     Create Free Account
@@ -902,7 +902,7 @@ export default function Home() {
                   Buy the Book on Amazon
                 </a>
                 <a
-                  href="https://app.makerealprogressapp.com/register"
+                  href="https://app.makerealprogressapp.com/signup"
                   className="text-base"
                   style={{
                     display: "inline-flex",

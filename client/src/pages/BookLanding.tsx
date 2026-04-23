@@ -93,7 +93,7 @@ export default function BookLanding() {
           {/* Primary CTAs */}
           <div className="flex flex-col gap-3 mb-6">
             <a
-              href="https://app.makerealprogressapp.com/register"
+              href="https://app.makerealprogressapp.com/signup"
               className="btn-forest-solid text-base w-full justify-center"
             >
               Create Free Account
@@ -292,7 +292,7 @@ export default function BookLanding() {
       <div className="sticky bottom-0 left-0 right-0 bg-[#F8F4EE]/95 backdrop-blur-sm border-t border-[#2C4A2E]/10 px-5 py-4 z-50">
         <div className="max-w-lg mx-auto flex gap-3">
           <a
-            href="https://app.makerealprogressapp.com/register"
+            href="https://app.makerealprogressapp.com/signup"
             className="btn-forest-solid flex-1 text-sm py-3 justify-center"
           >
             <Smartphone size={15} />
