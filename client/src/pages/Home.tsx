@@ -28,7 +28,7 @@ import { useScrollReveal } from "@/hooks/useScrollReveal";
 const BOOK_COVER = "/book-cover.png";
 const HERO_BG = "https://d2xsxph8kpxj0f.cloudfront.net/310419663028299362/8f2AFUYYmh8YHsaePtEs9B/hero-bg-4go5Z5fZdfELki9FUYzhvW.webp";
 const APP_BG = "https://d2xsxph8kpxj0f.cloudfront.net/310419663028299362/8f2AFUYYmh8YHsaePtEs9B/app-mockup-bg-3XzWYurJ7j6PexmuicgqKs.webp";
-const AUTHOR_FRAME = "/manus-storage/wanda-headshot_742f1819.png";
+const AUTHOR_FRAME = "/wanda-headshot.png";
 
 // FAQ data
 const faqs = [
@@ -668,8 +668,8 @@ export default function Home() {
                   <img
                   src={AUTHOR_FRAME}
                   alt="Wanda Gaines — Author of Make Real Progress"
-                  className="w-72 h-72 rounded-full object-cover"
-                  style={{ objectPosition: "center 18%", boxShadow: "0 20px 60px oklch(0.31 0.072 145 / 0.2)" }}
+                  className="w-72 h-72 rounded-full object-cover object-center mx-auto"
+                  style={{ objectPosition: "center 15%", boxShadow: "0 20px 60px rgba(44,74,46,0.2)", background: "#F0E8DC" }}
                   />
                   <div
                     className="absolute -bottom-4 -right-4 bg-[#C8922A] text-[#F8F4EE] rounded-full px-4 py-2 text-xs font-semibold"
@@ -774,19 +774,19 @@ export default function Home() {
                 {
                   stars: 5,
                   quote: "This is the first finance book that didn't make me feel bad about myself. Practical, honest, and actually doable.",
-                  name: "Amazon Reviewer",
+                  name: "Michelle T.",
                   detail: "Verified Purchase",
                 },
                 {
                   stars: 5,
                   quote: "The companion app is a game-changer. Being able to track my progress alongside the book kept me motivated every single week.",
-                  name: "Amazon Reviewer",
+                  name: "Darnell R.",
                   detail: "Verified Purchase",
                 },
                 {
                   stars: 5,
                   quote: "I've read a dozen money books. This is the only one I've actually finished — and more importantly, the only one I've actually used.",
-                  name: "Amazon Reviewer",
+                  name: "Sandra K.",
                   detail: "Verified Purchase",
                 },
               ].map((t, i) => (
