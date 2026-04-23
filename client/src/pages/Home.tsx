@@ -46,7 +46,7 @@ const faqs = [
   },
   {
     q: "Is the companion app really free?",
-    a: "Yes. The core companion app is completely free to use. Create an account and start tracking your progress today — no credit card required.",
+    a: "Yes. The core companion app is completely free to use — no credit card required. For readers who want to go deeper, a one-time Premium upgrade is available for $9.99, which unlocks unlimited debt tracking, advanced payoff strategies, and all future premium features. No subscription, no recurring fees, ever.",
   },
   {
     q: "Where can I buy the book?",
@@ -555,7 +555,7 @@ export default function Home() {
                 >
                   The Make Real Progress app is built to complement every chapter of the book.
                   Track your debt payoff, log your wins, and stay motivated — all in one place.
-                  And it's completely free.
+                  Free to start. Upgrade to Premium for $9.99 — a one-time lifetime unlock, no subscription ever.
                 </p>
 
                 <div className="space-y-4 mb-8">
@@ -563,7 +563,8 @@ export default function Home() {
                     "Debt tracker built around the book's framework",
                     "Milestone celebrations to keep you motivated",
                     "Progress dashboard — see how far you've come",
-                    "Secure, private, and completely free to use",
+                    "Free to start — no credit card required",
+                    "Upgrade to Premium for $9.99 — one-time, lifetime access",
                     "Works alongside every chapter of the book",
                   ].map((feature) => (
                     <div key={feature} className="flex items-start gap-3 reveal">
@@ -623,7 +624,7 @@ export default function Home() {
                             className="text-[#C8922A] text-xs"
                             style={{ fontFamily: "'DM Sans', sans-serif" }}
                           >
-                            Free to use
+                            Free to start · $9.99 Premium
                           </div>
                         </div>
                       </div>
