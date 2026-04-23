@@ -14,7 +14,7 @@ const CHECKLIST_ITEMS = [
 export default function LeadMagnetSection() {
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "already_subscribed" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -36,12 +36,16 @@ export default function LeadMagnetSection() {
         }),
       });
 
-      const data = await response.json() as { success?: boolean; error?: string };
+      const data = await response.json() as { success?: boolean; state?: string; error?: string };
 
       if (response.ok && data.success) {
-        setStatus("success");
-        // PDF is delivered by Kit's incentive email after email confirmation
-        // No auto-download here — subscriber must confirm their email first
+        // 'active' = new subscriber awaiting confirmation
+        // 'inactive' = already confirmed previously, no new email sent
+        if (data.state === "active") {
+          setStatus("success");
+        } else {
+          setStatus("already_subscribed");
+        }
       } else {
         console.error("Subscribe error:", data);
         setStatus("error");
@@ -188,6 +192,24 @@ export default function LeadMagnetSection() {
                     style={{ fontFamily: "'DM Sans', sans-serif" }}
                   >
                     We sent a confirmation email to <span className="text-[#C8922A]">{email}</span>. Click the link inside to confirm and receive your free Debt-Free Starter Kit.
+                  </p>
+                </div>
+              ) : status === "already_subscribed" ? (
+                <div className="text-center py-6">
+                  <div className="w-16 h-16 rounded-full bg-[#C8922A]/20 flex items-center justify-center mx-auto mb-4">
+                    <CheckCircle size={32} className="text-[#C8922A]" />
+                  </div>
+                  <h3
+                    className="text-[#F8F4EE] font-bold text-xl mb-2"
+                    style={{ fontFamily: "'Playfair Display', serif" }}
+                  >
+                    You're already in!
+                  </h3>
+                  <p
+                    className="text-[#F8F4EE]/70 text-sm leading-relaxed"
+                    style={{ fontFamily: "'DM Sans', sans-serif" }}
+                  >
+                    <span className="text-[#C8922A]">{email}</span> is already confirmed. Check your previous email from us for your Debt-Free Starter Kit download link.
                   </p>
                 </div>
               ) : (

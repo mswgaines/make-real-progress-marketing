@@ -35,7 +35,8 @@ export default async function handler(req, res) {
     const data = await kitRes.json();
 
     if (kitRes.ok && data.subscription) {
-      return res.status(200).json({ success: true });
+      const state = data.subscription.state; // 'active' = new, 'inactive' = already confirmed
+      return res.status(200).json({ success: true, state });
     } else {
       console.error("Kit API error:", data);
       return res.status(400).json({ error: data.message || "Subscription failed" });
