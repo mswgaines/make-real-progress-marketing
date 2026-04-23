@@ -25,25 +25,20 @@ export default function LeadMagnetSection() {
     setErrorMsg("");
 
     try {
-      // Submit to Kit using their public form subscribe endpoint
-      const formData = new FormData();
-      formData.append("email_address", email.trim());
-      if (firstName.trim()) {
-        formData.append("first_name", firstName.trim());
-      }
+      // Submit via our server-side API route which calls Kit's v3 API
+      // This properly triggers the incentive/confirmation email
+      const response = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: email.trim(),
+          firstName: firstName.trim() || undefined,
+        }),
+      });
 
-      const response = await fetch(
-        `https://app.kit.com/forms/${KIT_FORM_UID}/subscriptions`,
-        {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-          },
-          body: formData,
-        }
-      );
+      const data = await response.json() as { success?: boolean; error?: string };
 
-      if (response.ok || response.status === 200 || response.status === 201) {
+      if (response.ok && data.success) {
         setStatus("success");
         // Trigger PDF download
         const link = document.createElement("a");
@@ -53,21 +48,9 @@ export default function LeadMagnetSection() {
         link.click();
         document.body.removeChild(link);
       } else {
-        const text = await response.text();
-        console.error("Kit subscription error:", response.status, text);
-        // Kit sometimes returns non-200 but still subscribes — treat as success
-        if (response.status === 422 || response.status === 303) {
-          setStatus("success");
-          const link = document.createElement("a");
-          link.href = "/debt-free-starter-kit.pdf";
-          link.download = "Debt-Free-Starter-Kit.pdf";
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-        } else {
-          setStatus("error");
-          setErrorMsg("Something went wrong. Please try again.");
-        }
+        console.error("Subscribe error:", data);
+        setStatus("error");
+        setErrorMsg(data.error || "Something went wrong. Please try again.");
       }
     } catch (err) {
       console.error("Subscription error:", err);
