@@ -22,6 +22,7 @@ import { ChevronDown, BookOpen, Smartphone, ArrowRight, CheckCircle2, Star, Quot
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import BookQuiz from "@/components/BookQuiz";
+import LeadMagnetSection from "@/components/LeadMagnetSection";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 
 // Asset URLs
@@ -832,6 +833,11 @@ export default function Home() {
           IS THIS BOOK RIGHT FOR ME? QUIZ
           ================================================================ */}
       <BookQuiz />
+
+      {/* ================================================================
+          LEAD MAGNET — DEBT-FREE STARTER KIT
+          ================================================================ */}
+      <LeadMagnetSection />
 
       {/* ================================================================
           FAQ SECTION
