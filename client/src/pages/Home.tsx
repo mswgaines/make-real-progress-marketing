@@ -21,6 +21,7 @@ import { useState } from "react";
 import { ChevronDown, BookOpen, Smartphone, ArrowRight, CheckCircle2, Star, Quote } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import BookQuiz from "@/components/BookQuiz";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 
 // Asset URLs
@@ -860,6 +861,11 @@ export default function Home() {
           </RevealSection>
         </div>
       </section>
+
+      {/* ================================================================
+          IS THIS BOOK RIGHT FOR ME? QUIZ
+          ================================================================ */}
+      <BookQuiz />
 
       {/* ================================================================
           FINAL CTA BAND
