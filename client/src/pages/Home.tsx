@@ -668,8 +668,8 @@ export default function Home() {
                   <img
                   src={AUTHOR_FRAME}
                   alt="Wanda Gaines — Author of Make Real Progress"
-                  className="w-72 h-72 rounded-full object-cover object-center mx-auto"
-                  style={{ objectPosition: "center 15%", boxShadow: "0 20px 60px rgba(44,74,46,0.2)", background: "#C0B8B6" }}
+                  className="w-80 h-80 rounded-full object-cover mx-auto"
+                  style={{ objectPosition: "center 30%", objectFit: "cover", boxShadow: "0 20px 60px rgba(44,74,46,0.2)", background: "#C8BDB8", backgroundColor: "#C8BDB8" }}
                   />
                   <div
                     className="absolute -bottom-4 -right-4 bg-[#C8922A] text-[#F8F4EE] rounded-full px-4 py-2 text-xs font-semibold"
