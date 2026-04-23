@@ -11,6 +11,7 @@ export default async function handler(req, res) {
   }
 
   const KIT_API_KEY = process.env.KIT_API_KEY;
+  const KIT_API_SECRET = process.env.KIT_API_SECRET;
   const KIT_FORM_ID = "9362994";
 
   if (!KIT_API_KEY) {
@@ -19,6 +20,23 @@ export default async function handler(req, res) {
   }
 
   try {
+    // Step 1: Check if subscriber already exists and is confirmed (active)
+    if (KIT_API_SECRET) {
+      const checkRes = await fetch(
+        `https://api.convertkit.com/v3/subscribers?api_secret=${KIT_API_SECRET}&email_address=${encodeURIComponent(email.trim())}`,
+        { method: "GET" }
+      );
+      if (checkRes.ok) {
+        const checkData = await checkRes.json();
+        const existing = checkData.subscribers?.[0];
+        if (existing && existing.state === "active") {
+          // Already confirmed — no need to re-subscribe
+          return res.status(200).json({ success: true, already_subscribed: true });
+        }
+      }
+    }
+
+    // Step 2: Subscribe to the form (new or unconfirmed subscriber)
     const kitRes = await fetch(
       `https://api.convertkit.com/v3/forms/${KIT_FORM_ID}/subscribe`,
       {
@@ -35,8 +53,7 @@ export default async function handler(req, res) {
     const data = await kitRes.json();
 
     if (kitRes.ok && data.subscription) {
-      const state = data.subscription.state; // 'active' = new, 'inactive' = already confirmed
-      return res.status(200).json({ success: true, state });
+      return res.status(200).json({ success: true, already_subscribed: false });
     } else {
       console.error("Kit API error:", data);
       return res.status(400).json({ error: data.message || "Subscription failed" });

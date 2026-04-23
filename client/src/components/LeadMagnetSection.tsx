@@ -36,15 +36,13 @@ export default function LeadMagnetSection() {
         }),
       });
 
-      const data = await response.json() as { success?: boolean; state?: string; error?: string };
+      const data = await response.json() as { success?: boolean; already_subscribed?: boolean; error?: string };
 
       if (response.ok && data.success) {
-        // 'active' = new subscriber awaiting confirmation
-        // 'inactive' = already confirmed previously, no new email sent
-        if (data.state === "active") {
-          setStatus("success");
-        } else {
+        if (data.already_subscribed) {
           setStatus("already_subscribed");
+        } else {
+          setStatus("success");
         }
       } else {
         console.error("Subscribe error:", data);
