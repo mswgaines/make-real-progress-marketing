@@ -32,6 +32,8 @@ export default function Navbar() {
     { label: "FAQ", href: "/#faq" },
   ];
 
+  const KIT_FORM_URL = "https://make-real-progress.kit.com/2721d9624f";
+
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
@@ -74,6 +76,15 @@ export default function Navbar() {
 
           {/* Desktop CTA */}
           <div className="hidden md:flex items-center gap-3">
+            <a
+              href={KIT_FORM_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[#2C4A2E]/80 hover:text-[#2C4A2E] transition-colors duration-200 text-sm font-medium"
+              style={{ fontFamily: "'DM Sans', sans-serif" }}
+            >
+              Free Starter Kit
+            </a>
             <a
               href="https://app.makerealprogressapp.com"
               className="text-[#2C4A2E]/80 hover:text-[#2C4A2E] transition-colors duration-200 text-sm font-medium border border-[#2C4A2E]/30 rounded-lg px-4 py-2 hover:border-[#2C4A2E]/60"
@@ -120,6 +131,16 @@ export default function Navbar() {
               {link.label}
             </a>
           ))}
+          <a
+            href={KIT_FORM_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[#2C4A2E] font-medium py-2 text-center border border-[#2C4A2E]/30 rounded-lg bg-[#2C4A2E]/5"
+            style={{ fontFamily: "'DM Sans', sans-serif" }}
+            onClick={() => setMobileOpen(false)}
+          >
+            Free Starter Kit
+          </a>
           <a
             href="https://app.makerealprogressapp.com"
             className="text-[#2C4A2E] font-medium py-2 text-center border border-[#2C4A2E]/30 rounded-lg"
