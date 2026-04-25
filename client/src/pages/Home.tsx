@@ -23,6 +23,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import BookQuiz from "@/components/BookQuiz";
 import LeadMagnetSection from "@/components/LeadMagnetSection";
+import StarterKitPopup from "@/components/StarterKitPopup";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 
 // Asset URLs
@@ -105,6 +106,7 @@ function RevealSection({ children, className = "" }: { children: React.ReactNode
 export default function Home() {
   return (
     <div className="min-h-screen bg-[#F8F4EE]">
+      <StarterKitPopup />
       <Navbar />
 
       {/* ================================================================
