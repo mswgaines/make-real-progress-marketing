@@ -86,7 +86,7 @@ export default function Footer() {
                 { label: "The Book", href: "/#book" },
                 { label: "The App", href: "/#app" },
                 { label: "How It Works", href: "/#how-it-works" },
-                { label: "About Wanda", href: "/#author" },
+                { label: "About Wanda", href: "/about" },
                 { label: "FAQ", href: "/#faq" },
               ].map((link) => (
                 <li key={link.href}>

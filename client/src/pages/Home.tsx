@@ -534,7 +534,7 @@ export default function Home() {
       <section id="app" className="py-24 bg-[#EDE8DF]">
         <div className="container">
           <RevealSection>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               {/* Left: Content */}
               <div>
                 <div className="flex items-center gap-2 mb-4 reveal">
@@ -616,110 +616,16 @@ export default function Home() {
               </div>
 
               {/* Right: App 4-panel mockup */}
-              <div className="reveal flex justify-center lg:justify-end">
+              <div className="reveal flex justify-center lg:justify-end items-center">
                 <img
                   src="/app-mockup-4panel.png"
                   alt="Make Real Progress App — Insights, Progress, Real Progress Score, and Home screens"
                   className="w-full rounded-2xl"
                   style={{
-                    maxWidth: "620px",
+                    maxWidth: "760px",
                     boxShadow: "0 32px 80px rgba(26, 46, 26, 0.22), 0 8px 24px rgba(26, 46, 26, 0.12)",
                   }}
                 />
-              </div>
-            </div>
-          </RevealSection>
-        </div>
-      </section>
-
-      {/* ================================================================
-          ABOUT THE AUTHOR — Wanda Gaines
-          ================================================================ */}
-      <section id="author" className="py-24 bg-[#F8F4EE]">
-        <div className="container">
-          <RevealSection>
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-              {/* Author image */}
-              <div className="lg:col-span-4 flex justify-center reveal">
-                <div className="relative flex flex-col items-center">
-                  <img
-                  src={AUTHOR_FRAME}
-                  alt="Wanda Gaines — Author of Make Real Progress"
-                  className="w-72 object-cover mx-auto"
-                  style={{
-                    borderRadius: "1.5rem",
-                    boxShadow: "0 20px 60px rgba(44,74,46,0.25)",
-                    display: "block",
-                  }}
-                  />
-                  <div
-                    className="absolute -bottom-4 -right-4 bg-[#C8922A] text-[#F8F4EE] rounded-full px-4 py-2 text-xs font-semibold"
-                    style={{ fontFamily: "'DM Sans', sans-serif" }}
-                  >
-                    Author
-                  </div>
-                </div>
-
-              </div>
-
-              {/* Author content */}
-              <div className="lg:col-span-8">
-                <div className="flex items-center gap-2 mb-4 reveal">
-                  <div className="w-8 h-px bg-[#C8922A]" />
-                  <span className="section-label">About the Author</span>
-                </div>
-                <h2
-                  className="text-[#1A2E1A] leading-tight mb-2 reveal"
-                  style={{
-                    fontFamily: "'Playfair Display', serif",
-                    fontSize: "clamp(1.8rem, 3.5vw, 2.8rem)",
-                    fontWeight: 700,
-                  }}
-                >
-                  Wanda Gaines
-                </h2>
-                <p
-                  className="text-[#C8922A] font-medium mb-6 reveal"
-                  style={{ fontFamily: "'DM Sans', sans-serif" }}
-                >
-                  Author of <em>Make Real Progress</em>
-                </p>
-
-                <div className="space-y-4 mb-8">
-                  <p
-                    className="text-[#2C4A2E]/75 text-base leading-relaxed reveal"
-                    style={{ fontFamily: "'DM Sans', sans-serif" }}
-                  >
-                    Wanda Gaines wrote <em>Make Real Progress</em> because she knows what it's like
-                    to feel overwhelmed by debt — and what it takes to actually get out. Her approach
-                    is honest, practical, and built for real people navigating real life.
-                  </p>
-                  <p
-                    className="text-[#2C4A2E]/75 text-base leading-relaxed reveal"
-                    style={{ fontFamily: "'DM Sans', sans-serif" }}
-                  >
-                    This isn't a book about perfection. It's about progress — the kind that actually
-                    sticks. Wanda's framework is designed to meet you where you are, without judgment,
-                    and help you take the next step forward.
-                  </p>
-                </div>
-
-                {/* Pull quote */}
-                <div className="border-l-4 border-[#C8922A] pl-6 py-2 reveal">
-                  <Quote size={20} className="text-[#C8922A] mb-2" />
-                  <p
-                    className="text-[#1A2E1A] text-lg italic leading-relaxed"
-                    style={{ fontFamily: "'Playfair Display', serif" }}
-                  >
-                    "You don't need to be perfect. You just need to start."
-                  </p>
-                  <p
-                    className="text-[#2C4A2E]/60 text-sm mt-2"
-                    style={{ fontFamily: "'DM Sans', sans-serif" }}
-                  >
-                    — Wanda Gaines
-                  </p>
-                </div>
               </div>
             </div>
           </RevealSection>

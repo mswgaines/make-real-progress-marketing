@@ -28,7 +28,7 @@ export default function Navbar() {
     { label: "Home", href: "/" },
     { label: "The Book", href: "/#book" },
     { label: "The App", href: "/#app" },
-    { label: "About", href: "/#author" },
+    { label: "About", href: "/about" },
     { label: "FAQ", href: "/#faq" },
   ];
 
