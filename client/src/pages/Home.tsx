@@ -534,7 +534,7 @@ export default function Home() {
       <section id="app" className="py-24 bg-[#EDE8DF]">
         <div className="container">
           <RevealSection>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
               {/* Left: Content */}
               <div>
                 <div className="flex items-center gap-2 mb-4 reveal">
@@ -616,7 +616,7 @@ export default function Home() {
               </div>
 
               {/* Right: App 4-panel mockup */}
-              <div className="reveal flex justify-center lg:justify-end items-center">
+              <div className="flex justify-center lg:justify-end items-center">
                 <img
                   src="/app-mockup-4panel.png"
                   alt="Make Real Progress App — Insights, Progress, Real Progress Score, and Home screens"
