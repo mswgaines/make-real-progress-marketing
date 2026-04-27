@@ -534,7 +534,7 @@ export default function Home() {
       <section id="app" className="py-24 bg-[#EDE8DF]">
         <div className="container">
           <RevealSection>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
               {/* Left: Content */}
               <div>
                 <div className="flex items-center gap-2 mb-4 reveal">
@@ -597,62 +597,35 @@ export default function Home() {
                     Sign In
                   </a>
                 </div>
+
+                {/* Free badge */}
+                <div className="mt-5 reveal">
+                  <span
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold"
+                    style={{
+                      fontFamily: "'DM Sans', sans-serif",
+                      background: "rgba(12, 148, 136, 0.12)",
+                      color: "#0C9488",
+                      border: "1px solid rgba(12, 148, 136, 0.25)",
+                    }}
+                  >
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#0C9488] inline-block" />
+                    Free to start &nbsp;·&nbsp; No credit card required
+                  </span>
+                </div>
               </div>
 
-              {/* Right: App visual */}
-              <div className="reveal flex justify-center">
-                <div
-                  className="relative rounded-3xl overflow-hidden w-full max-w-md"
+              {/* Right: App 4-panel mockup */}
+              <div className="reveal flex justify-center lg:justify-end">
+                <img
+                  src="/app-mockup-4panel.png"
+                  alt="Make Real Progress App — Insights, Progress, Real Progress Score, and Home screens"
+                  className="w-full rounded-2xl"
                   style={{
-                    background: `url(${APP_BG}) center/cover no-repeat`,
-                    minHeight: "420px",
-                    boxShadow: "0 32px 80px oklch(0.22 0.05 145 / 0.3)",
+                    maxWidth: "620px",
+                    boxShadow: "0 32px 80px rgba(26, 46, 26, 0.22), 0 8px 24px rgba(26, 46, 26, 0.12)",
                   }}
-                >
-                  <div className="absolute inset-0 bg-[#2C4A2E]/50" />
-                  <div className="relative z-10 p-10 flex flex-col justify-end h-full" style={{ minHeight: "420px" }}>
-                    <div className="bg-[#F8F4EE]/10 backdrop-blur-sm border border-[#F8F4EE]/20 rounded-2xl p-6">
-                      <div className="flex items-center gap-3 mb-4">
-                        <div className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center">
-                          <img src="/app-icon.png" alt="Make Real Progress App" className="w-10 h-10 object-cover" />
-                        </div>
-                        <div>
-                          <div
-                            className="text-[#F8F4EE] font-semibold text-sm"
-                            style={{ fontFamily: "'DM Sans', sans-serif" }}
-                          >
-                            Make Real Progress App
-                          </div>
-                          <div
-                            className="text-[#C8922A] text-xs"
-                            style={{ fontFamily: "'DM Sans', sans-serif" }}
-                          >
-                            Free to start · $9.99 Premium
-                          </div>
-                        </div>
-                      </div>
-                      <div className="space-y-2">
-                        {["Debt Tracker", "Progress Dashboard", "Milestone Celebrations"].map((f) => (
-                          <div key={f} className="flex items-center gap-2">
-                            <div className="w-1.5 h-1.5 rounded-full bg-[#C8922A]" />
-                            <span
-                              className="text-[#F8F4EE]/80 text-xs"
-                              style={{ fontFamily: "'DM Sans', sans-serif" }}
-                            >
-                              {f}
-                            </span>
-                          </div>
-                        ))}
-                      </div>
-                      <p
-                        className="text-[#F8F4EE]/50 text-xs mt-3 italic"
-                        style={{ fontFamily: "'DM Sans', sans-serif" }}
-                      >
-                        App screenshots coming soon
-                      </p>
-                    </div>
-                  </div>
-                </div>
+                />
               </div>
             </div>
           </RevealSection>
