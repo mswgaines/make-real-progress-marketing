@@ -148,14 +148,18 @@ export default function Footer() {
             © {currentYear} Make Real Progress. All rights reserved.
           </p>
           <div className="flex items-center gap-5">
-            {["Privacy Policy", "Terms of Use", "Contact"].map((item) => (
+            {[
+              { label: "Privacy Policy", href: "#" },
+              { label: "Terms of Use", href: "#" },
+              { label: "Contact", href: "mailto:hello@makerealprogressapp.com" },
+            ].map((item) => (
               <a
-                key={item}
-                href="#"
+                key={item.label}
+                href={item.href}
                 className="text-[#F8F4EE]/40 hover:text-[#F8F4EE]/70 text-xs transition-colors"
                 style={{ fontFamily: "'DM Sans', sans-serif" }}
               >
-                {item}
+                {item.label}
               </a>
             ))}
           </div>
