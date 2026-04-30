@@ -25,6 +25,7 @@ import BookQuiz from "@/components/BookQuiz";
 import LeadMagnetSection from "@/components/LeadMagnetSection";
 import StarterKitPopup from "@/components/StarterKitPopup";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
+import { trackBuyBookClick, trackAppSignupClick } from "@/lib/analytics";
 
 // Asset URLs
 const BOOK_COVER = "/book-cover.png";
@@ -57,6 +58,10 @@ const faqs = [
   {
     q: "I already have the book — how do I get started with the app?",
     a: "Head to makerealprogressapp.com/book or scan the QR code inside your copy. You'll be guided through creating a free account and connecting your book to the app in minutes.",
+  },
+  {
+    q: "How do I get in touch or report a bug in the app?",
+    a: "We'd love to hear from you. Whether you have a question about the book, feedback on the app, or want to report a bug, reach out directly at hello@makerealprogressapp.com — we read every message.",
   },
 ];
 
@@ -168,6 +173,7 @@ export default function Home() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn-amber pulse-amber text-base"
+                  onClick={() => trackBuyBookClick("hero")}
                 >
                   <BookOpen size={18} />
                   Buy the Book on Amazon
@@ -175,6 +181,7 @@ export default function Home() {
                 <a
                   href="https://app.makerealprogressapp.com"
                   className="btn-forest text-base"
+                  onClick={() => trackAppSignupClick("hero")}
                 >
                   <Smartphone size={18} />
                   Try the App Free
@@ -340,11 +347,11 @@ export default function Home() {
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-3 reveal">
-                  <a href="https://amzn.to/3OVorkI" target="_blank" rel="noopener noreferrer" className="btn-amber">
+                  <a href="https://amzn.to/3OVorkI" target="_blank" rel="noopener noreferrer" className="btn-amber" onClick={() => trackBuyBookClick("ecosystem")}>
                     Buy the Book
                     <ArrowRight size={16} />
                   </a>
-                  <a href="https://app.makerealprogressapp.com" className="btn-forest">
+                  <a href="https://app.makerealprogressapp.com" className="btn-forest" onClick={() => trackAppSignupClick("ecosystem")}>
                     Get the App Free
                   </a>
                 </div>
@@ -789,12 +796,13 @@ export default function Home() {
                 no matter where you're starting from.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center reveal">
-                <a href="https://amzn.to/3OVorkI" target="_blank" rel="noopener noreferrer" className="btn-amber pulse-amber text-base">
+                <a href="https://amzn.to/3OVorkI" target="_blank" rel="noopener noreferrer" className="btn-amber pulse-amber text-base" onClick={() => trackBuyBookClick("final_cta")}>
                   <BookOpen size={18} />
                   Buy the Book on Amazon
                 </a>
                 <a
                   href="https://app.makerealprogressapp.com/signup"
+                  onClick={() => trackAppSignupClick("final_cta")}
                   className="text-base"
                   style={{
                     display: "inline-flex",
