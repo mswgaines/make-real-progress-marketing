@@ -81,31 +81,6 @@ export default function About() {
 
               {/* Author content */}
               <div className="lg:col-span-8">
-                <div className="flex items-center gap-2 mb-4">
-                  <div className="w-8 h-px bg-[#C8922A]" />
-                  <span
-                    className="text-[#C8922A] text-xs font-semibold uppercase tracking-widest"
-                    style={{ fontFamily: "'DM Sans', sans-serif" }}
-                  >
-                    About the Author
-                  </span>
-                </div>
-                <h2
-                  className="text-[#1A2E1A] leading-tight mb-2"
-                  style={{
-                    fontFamily: "'Playfair Display', serif",
-                    fontSize: "clamp(1.8rem, 3.5vw, 2.8rem)",
-                    fontWeight: 700,
-                  }}
-                >
-                  Wanda Gaines
-                </h2>
-                <p
-                  className="text-[#C8922A] font-medium mb-6"
-                  style={{ fontFamily: "'DM Sans', sans-serif" }}
-                >
-                  Author of <em>Make Real Progress</em>
-                </p>
                 <div className="space-y-4 mb-8">
                   <p
                     className="text-[#2C4A2E]/75 text-base leading-relaxed"
