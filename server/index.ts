@@ -2,6 +2,7 @@ import express from "express";
 import { createServer } from "http";
 import path from "path";
 import { fileURLToPath } from "url";
+import { blogRouter } from "./blog.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -11,6 +12,9 @@ async function startServer() {
   const server = createServer(app);
 
   app.use(express.json());
+
+  // Blog admin API
+  app.use("/api/blog", blogRouter());
 
   // Kit email subscription endpoint
   app.post("/api/subscribe", async (req, res) => {

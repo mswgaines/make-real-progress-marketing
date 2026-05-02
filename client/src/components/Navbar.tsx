@@ -29,6 +29,7 @@ export default function Navbar() {
     { label: "The Book", href: "/#book" },
     { label: "The App", href: "/#app" },
     { label: "About", href: "/about" },
+    { label: "Blog", href: "/blog" },
     { label: "FAQ", href: "/#faq" },
   ];
 
