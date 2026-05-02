@@ -1,15 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <!-- Core pages -->
   <url>
-    <loc>https://makerealprogressapp.com/</loc>
-    <lastmod>2026-04-30</lastmod>
+    <loc>https://www.makerealprogressapp.com/</loc>
+    <lastmod>2026-05-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://makerealprogressapp.com/book</loc>
-    <lastmod>2026-04-30</lastmod>
+    <loc>https://www.makerealprogressapp.com/book</loc>
+    <lastmod>2026-05-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
+
+  <!-- Blog index -->
+  <url>
+    <loc>https://www.makerealprogressapp.com/blog</loc>
+    <lastmod>2026-05-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Blog articles -->
+  <url>
+    <loc>https://www.makerealprogressapp.com/blog/debt-snowball-vs-debt-avalanche</loc>
+    <lastmod>2026-04-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.makerealprogressapp.com/blog/how-to-pay-off-debt-fast</loc>
+    <lastmod>2026-04-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.makerealprogressapp.com/blog/budgeting-for-beginners</loc>
+    <lastmod>2026-04-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.makerealprogressapp.com/blog/what-is-a-debt-payoff-calculator</loc>
+    <lastmod>2026-04-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.makerealprogressapp.com/blog/how-to-get-out-of-credit-card-debt</loc>
+    <lastmod>2026-04-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.makerealprogressapp.com/blog/psychology-of-debt</loc>
+    <lastmod>2026-04-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.makerealprogressapp.com/blog/how-to-track-debt-payoff-progress</loc>
+    <lastmod>2026-04-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.makerealprogressapp.com/blog/emergency-fund-vs-paying-off-debt</loc>
+    <lastmod>2026-05-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
 </urlset>
