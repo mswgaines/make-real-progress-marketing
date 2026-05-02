@@ -30,7 +30,7 @@ export default async function handler(req, res) {
 
   try {
     const params = new URLSearchParams({
-      select: "slug,title,excerpt,author,category,tags,publish_date,read_time",
+      select: "slug,title,excerpt,author,category,tags,published,publish_date,read_time",
       published: "eq.true",
       order: "publish_date.desc",
     });
