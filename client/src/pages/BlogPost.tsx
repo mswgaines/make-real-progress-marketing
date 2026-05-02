@@ -10,7 +10,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { loadPosts, getPostBySlug, getAllPosts, formatDate, BlogPost } from "@/lib/blog";
+import { loadPosts, getAllPosts, formatDate, BlogPost } from "@/lib/blog";
 import { ArrowLeft, Clock, Tag, BookOpen, ArrowRight } from "lucide-react";
 import BlogEmailCapture from "@/components/BlogEmailCapture";
 
@@ -40,23 +40,38 @@ function RelatedCard({ post }: { post: BlogPost }) {
 
 export default function BlogPostPage() {
   const params = useParams<{ slug: string }>();
-  const [post, setPost] = useState<BlogPost | undefined>(getPostBySlug(params.slug));
+  const [post, setPost] = useState<BlogPost | undefined>(undefined);
   const [allPosts, setAllPosts] = useState<BlogPost[]>(getAllPosts());
-  const [loading, setLoading] = useState(!post);
+  const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
 
   useEffect(() => {
-    loadPosts().then((loaded) => {
-      setAllPosts(loaded);
-      const found = getPostBySlug(params.slug);
-      if (found) {
-        setPost(found);
-        setNotFound(false);
-      } else {
+    // Fetch the full post (with content) directly from the single-post API
+    async function fetchPost() {
+      try {
+        const res = await fetch(`/api/blog/post/${params.slug}`);
+        if (!res.ok) {
+          setNotFound(true);
+          setLoading(false);
+          return;
+        }
+        const data = await res.json();
+        if (!data || data.error) {
+          setNotFound(true);
+        } else {
+          setPost(data as BlogPost);
+          setNotFound(false);
+        }
+      } catch {
         setNotFound(true);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
-    });
+    }
+
+    fetchPost();
+    // Also load all posts for the related articles sidebar
+    loadPosts().then(setAllPosts);
   }, [params.slug]);
 
   if (loading) {
