@@ -2,12 +2,24 @@
  * Blog API — Make Real Progress
  * Endpoints for saving and deleting blog posts via Supabase.
  * Protected by admin password.
+ *
+ * Also provides:
+ *  - GET /api/blog/sitemap.xml  — dynamic sitemap generated from Supabase
+ *  - Auto-pings Google on article publish
  */
 import { Router, Request, Response } from "express";
 
 const ADMIN_PASSWORD = process.env.BLOG_ADMIN_PASSWORD || "mrp-admin-2026";
 const SUPABASE_URL = process.env.SUPABASE_URL || "https://isjoascxdwadvlfgmuhk.supabase.co";
 const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY || "";
+const SITE_BASE = "https://www.makerealprogressapp.com";
+
+// Static pages to always include in the sitemap
+const STATIC_PAGES = [
+  { loc: `${SITE_BASE}/`,     changefreq: "weekly",  priority: "1.0" },
+  { loc: `${SITE_BASE}/book`, changefreq: "monthly", priority: "0.9" },
+  { loc: `${SITE_BASE}/blog`, changefreq: "weekly",  priority: "0.9" },
+];
 
 // Helper: call Supabase REST API with service role key
 async function supabaseQuery(
@@ -81,8 +93,76 @@ function postToDb(post: any) {
   };
 }
 
+// Ping Google to notify of a new/updated URL
+async function pingGoogle(articleSlug: string) {
+  const articleUrl = `${SITE_BASE}/blog/${articleSlug}`;
+  const sitemapUrl = `${SITE_BASE}/sitemap.xml`;
+
+  try {
+    // Ping Google with the sitemap URL (classic ping)
+    const pingUrl = `https://www.google.com/ping?sitemap=${encodeURIComponent(sitemapUrl)}`;
+    const res = await fetch(pingUrl, { method: "GET" });
+    console.log(`[blog/ping] Google sitemap ping: ${res.status} for ${articleUrl}`);
+  } catch (err) {
+    // Non-fatal — don't fail the save if ping fails
+    console.warn("[blog/ping] Google ping failed (non-fatal):", err);
+  }
+}
+
 export function blogRouter(): Router {
   const router = Router();
+
+  // ── Dynamic sitemap ──────────────────────────────────────────────────────────
+  // GET /api/blog/sitemap.xml — served by Express, then index.ts re-exposes
+  // at /sitemap.xml via a redirect (see server/index.ts)
+  router.get("/sitemap.xml", async (_req: Request, res: Response) => {
+    const today = new Date().toISOString().split("T")[0];
+
+    // Fetch all published posts
+    const { data, error } = await supabaseQuery(
+      "GET",
+      "blog_posts",
+      undefined,
+      {
+        select: "slug,publish_date,updated_at",
+        published: "eq.true",
+        order: "publish_date.desc",
+      }
+    );
+
+    const posts: Array<{ slug: string; publish_date: string; updated_at: string }> =
+      error || !Array.isArray(data) ? [] : data;
+
+    const staticUrls = STATIC_PAGES.map(
+      (p) => `
+  <url>
+    <loc>${p.loc}</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>${p.changefreq}</changefreq>
+    <priority>${p.priority}</priority>
+  </url>`
+    ).join("");
+
+    const articleUrls = posts
+      .map(
+        (p) => `
+  <url>
+    <loc>${SITE_BASE}/blog/${p.slug}</loc>
+    <lastmod>${(p.updated_at || p.publish_date || today).split("T")[0]}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>`
+      )
+      .join("");
+
+    const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${staticUrls}${articleUrls}
+</urlset>`;
+
+    res.setHeader("Content-Type", "application/xml");
+    res.setHeader("Cache-Control", "public, max-age=3600"); // cache 1 hour
+    return res.send(xml);
+  });
 
   // GET /api/blog/posts — list all posts (admin)
   router.get("/posts", async (req: Request, res: Response) => {
@@ -174,6 +254,11 @@ export function blogRouter(): Router {
     if (error) {
       console.error("[blog/save] Error:", error);
       return res.status(status).json({ error });
+    }
+
+    // If the article is being published, ping Google automatically
+    if (post.published) {
+      pingGoogle(post.slug); // fire-and-forget, non-blocking
     }
 
     return res.json({ success: true, slug: post.slug });

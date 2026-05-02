@@ -16,6 +16,11 @@ async function startServer() {
   // Blog admin API
   app.use("/api/blog", blogRouter());
 
+  // Dynamic sitemap — served at /sitemap.xml, generated live from Supabase
+  app.get("/sitemap.xml", async (_req, res) => {
+    res.redirect(307, "/api/blog/sitemap.xml");
+  });
+
   // Kit email subscription endpoint
   app.post("/api/subscribe", async (req, res) => {
     const { email, firstName } = req.body;
