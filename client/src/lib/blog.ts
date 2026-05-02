@@ -1,6 +1,7 @@
 /**
  * Blog utilities — Make Real Progress
- * Handles reading, creating, and managing blog posts from the JSON data store.
+ * Reads blog posts from the server API (backed by Supabase).
+ * Falls back to the bundled JSON data if the API is unavailable.
  */
 
 import blogPostsData from "../data/blog-posts.json";
@@ -11,30 +12,102 @@ export interface BlogPost {
   category: string;
   excerpt: string;
   content: string;
-  publishedAt: string;
+  publishDate?: string;
+  publishedAt?: string;
   published: boolean;
   author: string;
   tags: string[];
   readTime: string;
 }
 
-// Load all posts from the JSON data file
-let allPosts: BlogPost[] = blogPostsData as BlogPost[];
+// ─── In-memory cache (seeded from bundled JSON, refreshed from API) ───────────
+let allPosts: BlogPost[] = (blogPostsData as any[]).map(normalizePost);
+let cacheLoaded = false;
+
+function normalizePost(p: any): BlogPost {
+  return {
+    slug: p.slug,
+    title: p.title,
+    category: p.category || "Uncategorized",
+    excerpt: p.excerpt || "",
+    content: p.content,
+    publishDate: p.publishDate || p.publishedAt || new Date().toISOString().split("T")[0],
+    publishedAt: p.publishDate || p.publishedAt,
+    published: p.published ?? true,
+    author: p.author || "Wanda Gaines",
+    tags: p.tags || [],
+    readTime: p.readTime || "5 min read",
+  };
+}
+
+// ─── API helpers ──────────────────────────────────────────────────────────────
+const ADMIN_PASSWORD = "mrp-admin-2026";
+
+async function fetchPublicPosts(): Promise<BlogPost[]> {
+  try {
+    const res = await fetch("/api/blog/public");
+    if (!res.ok) throw new Error(`API ${res.status}`);
+    const data = await res.json();
+    return (data as any[]).map(normalizePost);
+  } catch {
+    return [];
+  }
+}
+
+async function fetchAdminPosts(): Promise<BlogPost[]> {
+  try {
+    const res = await fetch(`/api/blog/posts?adminPassword=${encodeURIComponent(ADMIN_PASSWORD)}`);
+    if (!res.ok) throw new Error(`API ${res.status}`);
+    const data = await res.json();
+    return (data as any[]).map(normalizePost);
+  } catch {
+    return [];
+  }
+}
+
+// ─── Public API ───────────────────────────────────────────────────────────────
+
+/**
+ * Load published posts from the API and refresh the in-memory cache.
+ * Returns the posts immediately from cache while loading.
+ */
+export async function loadPosts(): Promise<BlogPost[]> {
+  const apiPosts = await fetchPublicPosts();
+  if (apiPosts.length > 0) {
+    // Merge: API posts take priority; keep any local drafts not yet synced
+    const apiSlugs = new Set(apiPosts.map((p) => p.slug));
+    const localOnly = allPosts.filter((p) => !apiSlugs.has(p.slug) && !p.published);
+    allPosts = [...apiPosts, ...localOnly];
+    cacheLoaded = true;
+  }
+  return getAllPosts();
+}
+
+export async function loadAdminPosts(): Promise<BlogPost[]> {
+  const apiPosts = await fetchAdminPosts();
+  if (apiPosts.length > 0) {
+    allPosts = apiPosts;
+    cacheLoaded = true;
+  }
+  return getAllPostsAdmin();
+}
 
 export function getAllPosts(): BlogPost[] {
   return allPosts
     .filter((p) => p.published)
-    .sort(
-      (a, b) =>
-        new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
-    );
+    .sort((a, b) => {
+      const da = new Date(b.publishDate || b.publishedAt || 0).getTime();
+      const db2 = new Date(a.publishDate || a.publishedAt || 0).getTime();
+      return da - db2;
+    });
 }
 
 export function getAllPostsAdmin(): BlogPost[] {
-  return [...allPosts].sort(
-    (a, b) =>
-      new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
-  );
+  return [...allPosts].sort((a, b) => {
+    const da = new Date(b.publishDate || b.publishedAt || 0).getTime();
+    const db2 = new Date(a.publishDate || a.publishedAt || 0).getTime();
+    return da - db2;
+  });
 }
 
 export function getPostBySlug(slug: string): BlogPost | undefined {
@@ -53,14 +126,15 @@ export function getCategories(): string[] {
 export function getPostsByCategory(category: string): BlogPost[] {
   return allPosts
     .filter((p) => p.published && p.category === category)
-    .sort(
-      (a, b) =>
-        new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
-    );
+    .sort((a, b) => {
+      const da = new Date(b.publishDate || b.publishedAt || 0).getTime();
+      const db2 = new Date(a.publishDate || a.publishedAt || 0).getTime();
+      return da - db2;
+    });
 }
 
-// Admin: save posts back to in-memory store (for session persistence)
-// In production, this would call an API endpoint to write to the JSON file
+// ─── Admin mutations (call API, then update local cache) ──────────────────────
+
 export function savePost(post: BlogPost): void {
   const idx = allPosts.findIndex((p) => p.slug === post.slug);
   if (idx >= 0) {
@@ -73,6 +147,8 @@ export function savePost(post: BlogPost): void {
 export function deletePost(slug: string): void {
   allPosts = allPosts.filter((p) => p.slug !== slug);
 }
+
+// ─── Utilities ────────────────────────────────────────────────────────────────
 
 export function generateSlug(title: string): string {
   return title
@@ -90,6 +166,7 @@ export function estimateReadTime(content: string): string {
 }
 
 export function formatDate(dateStr: string): string {
+  if (!dateStr) return "";
   const date = new Date(dateStr);
   return date.toLocaleDateString("en-US", {
     year: "numeric",

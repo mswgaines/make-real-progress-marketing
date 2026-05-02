@@ -4,12 +4,13 @@
  * Design: Warm Editorial Premium — "The Journey"
  */
 
+import { useState, useEffect } from "react";
 import { Link, useParams } from "wouter";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { getPostBySlug, getAllPosts, formatDate, BlogPost } from "@/lib/blog";
+import { loadPosts, getPostBySlug, getAllPosts, formatDate, BlogPost } from "@/lib/blog";
 import { ArrowLeft, Clock, Tag, BookOpen, ArrowRight } from "lucide-react";
 
 const AMAZON_URL = "https://amzn.to/4cwBPUa";
@@ -38,9 +39,43 @@ function RelatedCard({ post }: { post: BlogPost }) {
 
 export default function BlogPostPage() {
   const params = useParams<{ slug: string }>();
-  const post = getPostBySlug(params.slug);
+  const [post, setPost] = useState<BlogPost | undefined>(getPostBySlug(params.slug));
+  const [allPosts, setAllPosts] = useState<BlogPost[]>(getAllPosts());
+  const [loading, setLoading] = useState(!post);
+  const [notFound, setNotFound] = useState(false);
 
-  if (!post) {
+  useEffect(() => {
+    loadPosts().then((loaded) => {
+      setAllPosts(loaded);
+      const found = getPostBySlug(params.slug);
+      if (found) {
+        setPost(found);
+        setNotFound(false);
+      } else {
+        setNotFound(true);
+      }
+      setLoading(false);
+    });
+  }, [params.slug]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[#F8F4EE]">
+        <Navbar />
+        <div className="container max-w-3xl mx-auto pt-40 pb-20 px-4">
+          <div className="animate-pulse space-y-4">
+            <div className="h-4 bg-[#2C4A2E]/10 rounded w-24" />
+            <div className="h-10 bg-[#2C4A2E]/10 rounded w-full" />
+            <div className="h-10 bg-[#2C4A2E]/10 rounded w-3/4" />
+            <div className="h-4 bg-[#2C4A2E]/10 rounded w-48 mt-4" />
+          </div>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (notFound || !post) {
     return (
       <div className="min-h-screen bg-[#F8F4EE]">
         <Navbar />
@@ -65,7 +100,7 @@ export default function BlogPostPage() {
     );
   }
 
-  const allPosts = getAllPosts();
+  const displayDate = post.publishDate || post.publishedAt || "";
   const relatedPosts = allPosts
     .filter((p) => p.slug !== post.slug && p.category === post.category)
     .slice(0, 3);
@@ -108,7 +143,7 @@ export default function BlogPostPage() {
           <div className="flex flex-wrap items-center gap-4 text-sm text-[#2C4A2E]/55 pb-8 border-b border-[#2C4A2E]/10" style={{ fontFamily: "'DM Sans', sans-serif" }}>
             <span className="font-medium text-[#2C4A2E]/80">By {post.author}</span>
             <span>·</span>
-            <span>{formatDate(post.publishedAt)}</span>
+            <span>{formatDate(displayDate)}</span>
             <span>·</span>
             <span className="flex items-center gap-1">
               <Clock size={13} />

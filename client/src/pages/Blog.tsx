@@ -4,17 +4,18 @@
  * Design: Warm Editorial Premium — "The Journey"
  */
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "wouter";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { getAllPosts, getCategories, getPostsByCategory, formatDate, BlogPost } from "@/lib/blog";
+import { loadPosts, getCategories, getPostsByCategory, formatDate, BlogPost, getAllPosts } from "@/lib/blog";
 import { ArrowRight, BookOpen, Clock, Tag } from "lucide-react";
 
 const AMAZON_URL = "https://amzn.to/4cwBPUa";
 const APP_URL = "https://app.makerealprogressapp.com/signup";
 
 function BlogCard({ post, featured = false }: { post: BlogPost; featured?: boolean }) {
+  const displayDate = post.publishDate || post.publishedAt || "";
   return (
     <Link href={`/blog/${post.slug}`}>
       <article
@@ -50,7 +51,7 @@ function BlogCard({ post, featured = false }: { post: BlogPost; featured?: boole
           {/* Meta */}
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3 text-xs text-[#2C4A2E]/50" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-              <span>{formatDate(post.publishedAt)}</span>
+              <span>{formatDate(displayDate)}</span>
               <span>·</span>
               <span className="flex items-center gap-1">
                 <Clock size={11} />
@@ -68,14 +69,23 @@ function BlogCard({ post, featured = false }: { post: BlogPost; featured?: boole
 }
 
 export default function Blog() {
-  const allPosts = getAllPosts();
-  const categories = getCategories();
+  const [posts, setPosts] = useState<BlogPost[]>(getAllPosts());
+  const [categories, setCategories] = useState<string[]>(getCategories());
   const [activeCategory, setActiveCategory] = useState<string>("All");
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    loadPosts().then((loaded) => {
+      setPosts(loaded);
+      setCategories(getCategories());
+      setLoading(false);
+    });
+  }, []);
 
   const filteredPosts =
     activeCategory === "All"
-      ? allPosts
-      : getPostsByCategory(activeCategory);
+      ? posts
+      : posts.filter((p) => p.category === activeCategory);
 
   const featuredPost = filteredPosts[0];
   const remainingPosts = filteredPosts.slice(1);
@@ -135,7 +145,19 @@ export default function Blog() {
       {/* Articles grid */}
       <section className="pb-20 px-4">
         <div className="container max-w-5xl mx-auto">
-          {filteredPosts.length === 0 ? (
+          {loading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+              {[...Array(6)].map((_, i) => (
+                <div key={i} className="rounded-2xl bg-[#FFFDF9] border border-[#2C4A2E]/10 p-6 animate-pulse">
+                  <div className="h-3 bg-[#2C4A2E]/10 rounded w-24 mb-4" />
+                  <div className="h-6 bg-[#2C4A2E]/10 rounded w-full mb-2" />
+                  <div className="h-6 bg-[#2C4A2E]/10 rounded w-3/4 mb-4" />
+                  <div className="h-4 bg-[#2C4A2E]/10 rounded w-full mb-2" />
+                  <div className="h-4 bg-[#2C4A2E]/10 rounded w-5/6" />
+                </div>
+              ))}
+            </div>
+          ) : filteredPosts.length === 0 ? (
             <div className="text-center py-20">
               <p className="text-[#2C4A2E]/50" style={{ fontFamily: "'DM Sans', sans-serif" }}>
                 No articles in this category yet.

@@ -9,6 +9,7 @@ import { useState, useEffect } from "react";
 import { Link } from "wouter";
 import {
   getAllPostsAdmin,
+  loadAdminPosts,
   getPostBySlugAdmin,
   generateSlug,
   estimateReadTime,
@@ -118,7 +119,8 @@ export default function AdminBlog() {
 
   useEffect(() => {
     if (authed) {
-      setPosts(getAllPostsAdmin());
+      // Load from Supabase on mount
+      loadAdminPosts().then((loaded) => setPosts(loaded));
     }
   }, [authed]);
 
@@ -154,7 +156,7 @@ export default function AdminBlog() {
       category: post.category,
       excerpt: post.excerpt,
       content: post.content,
-      publishedAt: post.publishedAt,
+      publishedAt: post.publishDate || post.publishedAt || new Date().toISOString().split('T')[0],
       published: post.published,
       author: post.author,
       tags: post.tags.join(", "),
@@ -212,11 +214,13 @@ export default function AdminBlog() {
       });
 
       if (response.ok) {
+        savePost(post);
         setSaveResult({ type: "success", message: `Article "${post.title}" saved successfully!` });
-        setPosts(getAllPostsAdmin());
+        // Refresh from Supabase
+        loadAdminPosts().then((loaded) => setPosts(loaded));
         setTimeout(() => {
           setView("list");
-          setPosts(getAllPostsAdmin());
+          loadAdminPosts().then((loaded) => setPosts(loaded));
         }, 1500);
       } else {
         const err = await response.json().catch(() => ({}));
@@ -226,10 +230,10 @@ export default function AdminBlog() {
       // Fallback: save in memory only (for dev/preview)
       savePost(post);
       setSaveResult({ type: "success", message: `Article saved (in-memory). Deploy to persist.` });
-      setPosts(getAllPostsAdmin());
+      loadAdminPosts().then((loaded) => setPosts(loaded));
       setTimeout(() => {
         setView("list");
-        setPosts(getAllPostsAdmin());
+        loadAdminPosts().then((loaded) => setPosts(loaded));
       }, 1500);
     } finally {
       setSaving(false);
@@ -246,7 +250,8 @@ export default function AdminBlog() {
     } catch {
       deletePost(slug);
     }
-    setPosts(getAllPostsAdmin().filter((p) => p.slug !== slug));
+    // Refresh from Supabase after delete
+    loadAdminPosts().then((loaded) => setPosts(loaded));
     setDeleteConfirm(null);
   }
 
