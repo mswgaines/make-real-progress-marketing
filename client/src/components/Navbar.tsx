@@ -13,6 +13,9 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [location] = useLocation();
 
+  // On non-home pages, always show solid navbar (transparent only works on home hero)
+  const isHome = location === "/";
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -38,7 +41,7 @@ export default function Navbar() {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled || mobileOpen
+        scrolled || mobileOpen || !isHome
           ? "bg-[#F8F4EE]/95 backdrop-blur-sm shadow-sm border-b border-[#2C4A2E]/10"
           : "bg-transparent"
       }`}
