@@ -67,7 +67,7 @@ ${blogUrls}
 </urlset>`;
 
     res.setHeader("Content-Type", "application/xml");
-    res.setHeader("Cache-Control", "s-maxage=3600, stale-while-revalidate");
+    res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
     return res.status(200).send(xml);
   } catch (err) {
     console.error("[sitemap] Error:", err);
