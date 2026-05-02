@@ -12,6 +12,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { loadPosts, getPostBySlug, getAllPosts, formatDate, BlogPost } from "@/lib/blog";
 import { ArrowLeft, Clock, Tag, BookOpen, ArrowRight } from "lucide-react";
+import BlogEmailCapture from "@/components/BlogEmailCapture";
 
 const AMAZON_URL = "https://amzn.to/4cwBPUa";
 const APP_URL = "https://app.makerealprogressapp.com/signup";
@@ -192,6 +193,9 @@ export default function BlogPostPage() {
           )}
         </div>
       </section>
+
+      {/* Email capture */}
+      <BlogEmailCapture />
 
       {/* In-article CTA */}
       <section className="py-12 px-4">
